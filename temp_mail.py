@@ -1,4 +1,3 @@
-from os import replace
 import requests
 from bs4 import BeautifulSoup
 
@@ -17,16 +16,14 @@ class TempMail:
         if session_id != None:
             self.cookies['PHPSESSID'] = session_id
 
-        self.__set_email()
+        self.__set_email_address()
         self.check_messages()
 
     def get_session_id(self) -> str:
         return self.cookies.get('PHPSESSID', None)
 
     def change_email_address(self) -> None:
-        tmm = self.__get_site_parsed(self.__endpoint_new)
-
-        self.email = tmm.find('input', 'mailtext', value=True)['value']
+        self.__set_email_address(get_new=True)
 
     def get_10_more_minutes(self) -> None:
         tmm = self.__get_site_parsed(self.__endpoint_more_10)
@@ -67,7 +64,7 @@ class TempMail:
 
             self.messages.append(mail)
 
-    def read_mail(self, id: str):
+    def read_message(self, id: str) -> str:
         endpoint = self.__endpoint_message + id
         tmm = self.__get_site_parsed(endpoint)
 
@@ -85,8 +82,10 @@ class TempMail:
 
         return BeautifulSoup(response.content, 'html.parser')
     
-    def __set_email(self) -> None:
-        tmm = self.__get_site_parsed(self.__endpoint)
+    def __set_email_address(self, get_new=False) -> None:
+        endpoint = self.__endpoint_new if get_new else self.__endpoint
+
+        tmm = self.__get_site_parsed(endpoint)
 
         self.email = tmm.find('input', 'mailtext', value=True)['value']
 

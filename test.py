@@ -34,7 +34,7 @@ while True:
         # read message
         elif user_input == 3:
             mail_id = input('message id: ').strip()
-            print(tm.read_mail(mail_id))
+            print(tm.read_message(mail_id))
 
         # show session id
         elif user_input == 4:
