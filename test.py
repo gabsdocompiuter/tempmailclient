@@ -1,11 +1,12 @@
 import os
-from temp_mail import TempMail
+from tempmailclient import TempMail
 
 clear = lambda: os.system('cls')
 
 tm = TempMail(session_id='127f5be450d212f6b7a9d293593e8ab4')
 # tm = TempMail()
 
+clear()
 while True:
     try:
         print()
@@ -19,7 +20,6 @@ while True:
         print('0 - close')
         user_input = int(input('select your option: ').strip())
 
-        clear()
 
         # get new mail
         if user_input == 1:
